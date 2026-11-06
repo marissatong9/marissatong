@@ -1,0 +1,25 @@
+# Frontend
+node_modules/
+dist/
+
+# Backend (Java)
+target/
+build/
+.gradle/
+*.class
+
+# Local secrets and overrides
+*.local
+application-local.properties
+
+# Logs
+*.log
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.iml
+
+# macOS
+.DS_Store
