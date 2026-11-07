@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - frontend/**
-      - .github/workflows/frontend.ci.yml
 
 permissions:
   contents: read
@@ -21,8 +18,28 @@ defaults:
     working-directory: frontend
 
 jobs:
+  changes:
+    name: Detect frontend changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: dorny/paths-filter@v4
+        id: filter
+        with:
+          predicate-quantifier: some-with-excludes
+          filters: |
+            frontend:
+              - 'frontend/**'
+              - '!frontend/**/*.md'
+              - '.github/workflows/frontend.ci.yml'
+
   frontend-typecheck:
     name: Frontend typecheck
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -36,6 +53,8 @@ jobs:
 
   frontend-lint:
     name: Frontend lint
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -49,6 +68,8 @@ jobs:
 
   frontend-format:
     name: Frontend format
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -62,6 +83,8 @@ jobs:
 
   frontend-build:
     name: Frontend build
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -72,3 +95,18 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run build
+
+  # The one check to mark as required in branch protection.
+  frontend-ci-passed:
+    name: Frontend CI passed
+    needs: [changes, frontend-typecheck, frontend-lint, frontend-format, frontend-build]
+    if: always()
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Fail if any frontend job failed or was cancelled
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+      - run: echo "All frontend checks passed or were skipped."

@@ -1,16 +1,9 @@
-# Frontend
-node_modules/
-dist/
-
-# Backend (Java)
-target/
-build/
-.gradle/
-*.class
+# Leftover root dependencies (the app's are in frontend/)
+/node_modules/
 
 # Local secrets and overrides
+.env
 *.local
-application-local.properties
 
 # Logs
 *.log

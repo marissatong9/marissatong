@@ -8,7 +8,7 @@ My personal portfolio website.
 
 🎨 **Frontend:** React, TypeScript, Tailwind CSS, Vite
 
-☕ **Backend:** Java (coming soon)
+☕ **Backend:** Java 25, Spring Boot, PostgreSQL (Neon)
 
 🚀 **Hosting:** GitHub Pages, deployed automatically with GitHub Actions
 
@@ -17,23 +17,30 @@ My personal portfolio website.
 ## Project structure
 
 ```
-.github/workflows/   deploy to GitHub Pages
-frontend/            the website
+.github/workflows/   CI checks and deployment
+frontend/            the website (see frontend/README.md)
   app/               source code
   public/            static files (icons, 404 page)
-backend/             Java API (coming soon)
+backend/             Spring Boot API (see backend/README.md)
+  src/main/java/     source code
+  src/test/java/     tests
 ```
 
 ## Running locally
 
-```bash
-cd frontend
-npm install
-npm run dev
-```
+The frontend and backend run separately. Setup steps are in each folder's README:
 
-Then open http://localhost:5173.
+- [frontend/README.md](frontend/README.md): React app at http://localhost:5173
+- [backend/README.md](backend/README.md): Spring Boot API at http://localhost:8080
 
-## Deployment
+Run them in separate terminal tabs. The frontend calls the backend using `VITE_API_URL`.
 
-Every push to `main` builds the site and deploys it to GitHub Pages.
+## CI and deployment
+
+| Workflow           | Runs on                                  | Does                                      |
+| ------------------ | ---------------------------------------- | ----------------------------------------- |
+| `frontend.ci.yml`  | PRs into `main` that change `frontend/`  | Typecheck, lint, format check, build      |
+| `backend.ci.yml`   | PRs into `main` that change `backend/`   | Format check, build and test              |
+| `deploy.yml`       | Merges to `main` that change `frontend/` | Builds the site and deploys to GitHub Pages |
+
+Backend deployment to `api.marissatong.dev` is coming soon.
