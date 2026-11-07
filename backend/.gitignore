@@ -1,0 +1,11 @@
+# Build output
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.class
+
+# Maven wrapper (downloaded automatically by ./mvnw)
+.mvn/wrapper/maven-wrapper.jar
+
+# Local secrets (Neon dev connection details)
+application-local.properties
