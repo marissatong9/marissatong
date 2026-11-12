@@ -1,13 +1,15 @@
-name: Deploy to GitHub Pages
+name: Frontend Deploy
 
+# Builds the frontend, uploads the artifact to GitHub Pages, then deploys it.
 on:
   push:
     branches:
       - main
     paths:
       - frontend/**
-      - "!frontend/**/*.md"
-      - .github/workflows/deploy.yml
+      - .github/workflows/frontend.deploy.yml
+      - "!**/*.md"
+      - "!**/.gitignore"
   workflow_dispatch:
 
 permissions:
