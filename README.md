@@ -37,10 +37,11 @@ Run them in separate terminal tabs. The frontend calls the backend using `VITE_A
 
 ## CI and deployment
 
-| Workflow           | Runs on                                  | Does                                      |
-| ------------------ | ---------------------------------------- | ----------------------------------------- |
-| `frontend.ci.yml`  | PRs into `main` that change `frontend/`  | Typecheck, lint, format check, build      |
-| `backend.ci.yml`   | PRs into `main` that change `backend/`   | Format check, build and test              |
-| `deploy.yml`       | Merges to `main` that change `frontend/` | Builds the site and deploys to GitHub Pages |
+| Workflow              | Runs on                                  | Does                                                         |
+| --------------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| `frontend.ci.yml`     | PRs into `main` that change `frontend/`  | Typecheck, lint, format check, build                         |
+| `backend.ci.yml`      | PRs into `main` that change `backend/`   | Format check, build and test                                 |
+| `frontend.deploy.yml` | Merges to `main` that change `frontend/` | Builds the site and deploys to GitHub Pages                  |
+| `backend.deploy.yml`  | Merges to `main` that change `backend/`  | Builds the API and deploys it to EC2 (`api.marissatong.dev`) |
 
-Backend deployment to `api.marissatong.dev` is coming soon.
+Changes that only touch Markdown or `.gitignore` files don't trigger a deploy. Both deploy workflows can also be run by hand from the **Actions** tab.

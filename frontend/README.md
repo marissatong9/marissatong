@@ -47,13 +47,13 @@ dist/             Build output (generated, not committed)
 
 ## Environment variables
 
-| Variable       | Local (`.env.development`) | Production (set in `deploy.yml`) |
-| -------------- | -------------------------- | -------------------------------- |
-| `VITE_API_URL` | `http://localhost:8080`    | `https://api.marissatong.dev`    |
+| Variable       | Local (`.env.development`) | Production (set in `frontend.deploy.yml`) |
+| -------------- | -------------------------- | ----------------------------------------- |
+| `VITE_API_URL` | `http://localhost:8080`    | `https://api.marissatong.dev`             |
 
 Only variables starting with `VITE_` are available in the app, via `import.meta.env.VITE_API_URL`.
 
 ## CI and deployment
 
 - **Pull requests into `main`** run typecheck, lint, format check and build (`.github/workflows/frontend.ci.yml`).
-- **Merging into `main`** builds the site and deploys it to GitHub Pages at https://marissatong.dev (`.github/workflows/deploy.yml`).
+- **Merging into `main`** builds the site and deploys it to GitHub Pages at https://marissatong.dev (`.github/workflows/frontend.deploy.yml`).

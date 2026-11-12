@@ -138,3 +138,29 @@ Pull requests into `main` that change `backend/**` run `.github/workflows/backen
 
 - **Backend format:** `./mvnw spotless:check`
 - **Backend build and test:** `./mvnw verify`
+
+## Deployment
+
+The API runs on an EC2 instance (us-west-2) at https://api.marissatong.dev. Merging a change to `backend/**` into `main` deploys it automatically with `.github/workflows/backend.deploy.yml`:
+
+1. Checks formatting, runs the tests and builds the jar.
+2. Gets short-lived AWS credentials through OIDC (no AWS keys are stored in GitHub).
+3. Uploads the jar to S3 as `portfolio-api-<commit sha>.jar`.
+4. Uses AWS Systems Manager (SSM) to run a script on the instance that downloads the jar, keeps the old one as `app.jar.prev`, and restarts the `portfolio` systemd service.
+5. Waits for `/actuator/health` to report `UP`. If it doesn't, the script restores the previous jar and the run fails.
+
+You can also run it by hand from the **Actions** tab (**Backend Deploy → Run workflow**).
+
+| AWS resource                                | Purpose                                                           |
+| ------------------------------------------- | ----------------------------------------------------------------- |
+| S3 bucket `marissatong-portfolio-deploys`   | Stores the built jars                                             |
+| IAM role `portfolio-ec2-role`               | Attached to the instance: SSM access and reading jars from S3     |
+| IAM role `github-actions-portfolio-deploy`  | Assumed by GitHub Actions on `main`: uploads jars and sends SSM commands |
+| GitHub repo variables                       | `AWS_DEPLOY_ROLE_ARN`, `DEPLOY_BUCKET`, `EC2_INSTANCE_ID`         |
+
+On the instance, the app is `/home/ec2-user/app.jar`, its environment variables are in `/etc/portfolio/app.env`, and Caddy serves HTTPS in front of it. Useful commands:
+
+```bash
+sudo systemctl status portfolio   # is it running?
+journalctl -u portfolio -f        # follow the logs
+```
