@@ -1,1 +1,7 @@
 @import 'tailwindcss';
+
+@theme {
+  --font-sans: 'DM Sans', system-ui, sans-serif; /* body text: font-sans */
+  --font-mono: 'DM Mono', monospace; /* small labels: font-mono */
+  --font-serif: 'DM Serif Display', serif; /* big headings: font-serif */
+}
