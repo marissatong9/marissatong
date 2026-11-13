@@ -1,5 +1,17 @@
+import { Outlet } from 'react-router'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+
 function App() {
-  return <h1 className="text-4xl font-bold text-center text-blue-600 p-8">In Progress...</h1>
+  return (
+    <div className="flex min-h-screen flex-col bg-white font-sans text-zinc-950">
+      <Navbar />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  )
 }
 
 export default App
