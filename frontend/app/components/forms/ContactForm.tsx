@@ -23,21 +23,41 @@ export default function ContactForm() {
   const [form, setForm] = useState<ContactFields>(EMPTY_FORM)
   const [errors, setErrors] = useState<ContactErrors>({})
   const [sent, setSent] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   function updateField(field: keyof ContactFields, value: string) {
     setForm({ ...form, [field]: value })
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     const newErrors = validate(form)
     setErrors(newErrors)
     if (Object.keys(newErrors).length > 0) return
 
-    // TODO: send `form` to the API here. For now, pretend it worked.
-    setSent(true)
-    setForm(EMPTY_FORM)
+    setSubmitting(true)
+    setSubmitError('')
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact-message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      })
+
+      if (!response.ok) throw new Error(`Request failed: ${response.status}`)
+
+      setSent(true)
+      setForm(EMPTY_FORM)
+    } catch {
+      setSubmitError("Couldn't send your message. Please try again.")
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (sent) {
@@ -95,8 +115,9 @@ export default function ContactForm() {
         {errors.message && <FieldError>{errors.message}</FieldError>}
       </Field>
 
-      <Button size="lg" type="submit">
-        Send message
+      {submitError && <FieldError>{submitError}</FieldError>}
+      <Button size="lg" type="submit" disabled={submitting}>
+        {submitting ? 'Sending...' : 'Send message'}
       </Button>
     </form>
   )
