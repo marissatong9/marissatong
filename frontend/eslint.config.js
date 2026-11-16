@@ -21,4 +21,11 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn components also export their style helpers (e.g. buttonVariants)
+    files: ['app/components/ui/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
