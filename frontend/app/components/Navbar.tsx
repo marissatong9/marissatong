@@ -1,4 +1,6 @@
 import { Link, NavLink } from 'react-router'
+import { cn } from 'cn'
+import { buttonVariants } from '@/components/ui/button'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -10,10 +12,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white">
       <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-8">
         <Link to="/" className="flex items-center gap-2.5">
-          <span
-            className="flex size-[30px] items-center justify-center rounded-[7px] bg-zinc-900 font-mono text-[13px] font-medium 
-text-zinc-50"
-          >
+          <span className="flex size-[30px] items-center justify-center rounded-[7px] bg-zinc-900 font-mono text-[13px] font-medium text-zinc-50">
             MT
           </span>
           <span className="font-serif text-xl">Marissa Tong</span>
@@ -26,11 +25,10 @@ text-zinc-50"
               to={link.to}
               end
               className={({ isActive }) =>
-                `rounded-[7px] px-3.5 py-2.5 text-sm font-medium ${
-                  isActive
-                    ? 'bg-zinc-100 text-zinc-950'
-                    : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950'
-                }`
+                cn(
+                  buttonVariants({ variant: 'ghost', size: 'nav' }),
+                  isActive && 'bg-zinc-100 text-zinc-950',
+                )
               }
             >
               {link.label}
@@ -40,7 +38,7 @@ text-zinc-50"
             href="/Marissa_Tong_Resume_2026.pdf"
             target="_blank"
             rel="noreferrer"
-            className="rounded-[7px] px-3.5 py-2.5 text-sm font-medium text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950"
+            className={buttonVariants({ variant: 'ghost', size: 'nav' })}
           >
             Résumé
           </a>
