@@ -4,5 +4,6 @@ public enum ProjectType {
   PERSONAL,
   WORK,
   HACKATHON,
-  INTERNSHIP
+  INTERNSHIP,
+  ACADEMIC
 }

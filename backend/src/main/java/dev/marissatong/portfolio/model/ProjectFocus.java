@@ -5,5 +5,6 @@ public enum ProjectFocus {
   BACKEND,
   FRONTEND,
   INFRASTRUCTURE,
-  DESIGN
+  DESIGN,
+  DATA
 }
