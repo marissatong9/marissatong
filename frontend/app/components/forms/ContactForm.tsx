@@ -63,11 +63,11 @@ export default function ContactForm() {
   if (sent) {
     return (
       <div className="flex flex-col items-center gap-3.5 py-16 text-center">
-        <div className="flex size-[52px] items-center justify-center rounded-full bg-zinc-900 text-[22px] font-semibold text-zinc-50">
+        <div className="flex size-[52px] items-center justify-center rounded-full bg-primary text-[22px] font-semibold text-primary-foreground">
           ✓
         </div>
         <p className="font-serif text-3xl">Message sent</p>
-        <p className="text-[15px] text-zinc-500">Thanks! I'll be in touch soon.</p>
+        <p className="text-[15px] text-muted-foreground">Thanks! I'll be in touch soon.</p>
         <Button size="sm" variant="outline" onClick={() => setSent(false)}>
           Send another
         </Button>
