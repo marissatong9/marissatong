@@ -1,6 +1,8 @@
 import { Link, NavLink } from 'react-router'
 import { cn } from 'cn'
 import { buttonVariants } from '@/components/ui/button'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import GitHubIcon from './icons/GitHubIcon'
 
 const links = [
   { to: '/', label: 'Home' },
@@ -10,10 +12,10 @@ const links = [
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white">
+    <header className="sticky top-0 z-20 border-b border-border bg-background">
       <div className="mx-auto flex h-16 max-w-[1120px] items-center justify-between px-8">
         <Link to="/" className="flex items-center gap-2.5">
-          <span className="flex size-[30px] items-center justify-center rounded-[7px] bg-zinc-900 font-mono text-[13px] font-medium text-zinc-50">
+          <span className="flex size-[30px] items-center justify-center rounded-[7px] bg-primary font-mono text-[13px] font-medium text-primary-foreground">
             MT
           </span>
           <span className="font-serif text-xl">Marissa Tong</span>
@@ -28,7 +30,7 @@ export default function Navbar() {
               className={({ isActive }) =>
                 cn(
                   buttonVariants({ variant: 'ghost', size: 'nav' }),
-                  isActive && 'bg-zinc-100 text-zinc-950',
+                  isActive && 'bg-muted text-foreground',
                 )
               }
             >
@@ -43,6 +45,22 @@ export default function Navbar() {
           >
             Résumé
           </a>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <a
+                  href="https://github.com/marissatong9/marissatong"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="View this site's code on GitHub"
+                  className={buttonVariants({ variant: 'ghost', size: 'nav' })}
+                />
+              }
+            >
+              <GitHubIcon />
+            </TooltipTrigger>
+            <TooltipContent>View code on GitHub</TooltipContent>
+          </Tooltip>
         </nav>
       </div>
     </header>
