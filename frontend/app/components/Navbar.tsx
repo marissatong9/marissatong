@@ -4,6 +4,7 @@ import { buttonVariants } from '@/components/ui/button'
 
 const links = [
   { to: '/', label: 'Home' },
+  { to: '/projects', label: 'Projects' },
   { to: '/contact', label: 'Contact' },
 ]
 
